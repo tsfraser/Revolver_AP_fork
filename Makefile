@@ -1,27 +1,21 @@
-export C_INCLUDE_PATH=/usr/lib/openmpi/include
-
 # compiler choice
 CC    = gcc
 
-all: qhull voboz fastmodules
+all: fastmodules c
 
-.PHONY : qhull voboz fastmodules
+.PHONY : fastmodules
 
-qhull:
-	make -C qhull/src
-
-voboz:
-	make -C src all
+c:
+	make -C revolver/c all
 
 fastmodules:
-	python python_tools/setup.py build_ext --inplace
-	mv fastmodules*.so python_tools/.
+	python revolver/setup.py build_ext --inplace
+	mv fastmodules*.so revolver/.
 
 clean:
-	make -C src clean
-	make -C qhull/src cleanall
-	rm -f bin/*
-	rm -f python_tools/*.*o
-	rm -f python_tools/fastmodules.c
-	rm -f python_tools/fastmodules*.so
-	rm -f python_tools/*.pyc
+	rm -f revolver/*.*o
+	rm -f revolver/fastmodules.c
+	rm -f revolver/fastmodules*.so
+	rm -f revolver/*.pyc
+	rm -f revolver/c/*.o
+	rm -f revolver/c/*.exe
